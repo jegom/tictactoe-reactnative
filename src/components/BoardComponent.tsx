@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Cell } from "../types";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import CellComponent from "./CellComponent";
 import { BoardState } from "../reducer";
 
@@ -13,12 +13,13 @@ class BoardComponent extends Component<Props> {
   public render() {  
     return (
       <View style={styles.container}>
+        <Text style={styles.heading}>Tic Tac Toe</Text>
         {this.props.board.map((row: Cell[]) => {
           return (
             <View key={this.props.board.indexOf(row)} style={styles.row}>
-              <CellComponent key={this.props.board.indexOf(row) + "0"} isMarked={row[0].isMarked} />
-              <CellComponent key={this.props.board.indexOf(row) + "1"} isMarked={row[1].isMarked} />
-              <CellComponent key={this.props.board.indexOf(row) + "2"} isMarked={row[2].isMarked} />
+              <CellComponent key={this.props.board.indexOf(row) + "0"} filledWith={row[0].filledWith} />
+              <CellComponent key={this.props.board.indexOf(row) + "1"} filledWith={row[1].filledWith} />
+              <CellComponent key={this.props.board.indexOf(row) + "2"} filledWith={row[2].filledWith} />
             </View>
           );
         })}
@@ -32,7 +33,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
+  },
+  heading: {
+    fontSize: 22,
+    margin: 20
   },
   row: {
     display: "flex",
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: {board: BoardState}): Props => {
     return {
-        board: state.board.data
+        board: state.board.boardData
     };
 };
 
