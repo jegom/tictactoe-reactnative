@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Image, ImagePropTypes } from "react-native";
-import { Marker } from "../types";
+import { CellInfo, Marker } from "../types";
 
 interface Props {
-  filledWith: Marker;
+  cell: CellInfo;
 }
 
 const cellSize = 100;
@@ -23,33 +23,33 @@ const styles = StyleSheet.create({
   },
 });
 
-const heartImage = (
-  <View style={styles.imageBorder}>
-    <Image style={styles.image} source={require("../images/herz.png")} />
-  </View>
-);
-
-const crossImage = (
-  <View style={styles.imageBorder}>
-    <Image style={styles.image} source={require("../images/cross.png")} />
-  </View>
-);
-
-const emptyImage = (<View style={styles.imageBorder}/>);
-
-const getMarker = (filledWith: Marker): JSX.Element => {
-  if(filledWith === Marker.heart){
-    return heartImage;
-  }
-  if(filledWith === Marker.cross){
-    return crossImage;
-  }
-  return emptyImage;
-};
-
 const CellComponent = (props: Props) => {
   console.log(props);
-  return <View>{getMarker(props.filledWith)}</View>;
+  const heartImage = (
+    <View style={styles.imageBorder}>
+      <Image style={styles.image} source={require("../images/herz.png")} />
+    </View>
+  );
+  
+  const crossImage = (
+    <View style={styles.imageBorder}>
+      <Image style={styles.image} source={require("../images/cross.png")} />
+    </View>
+  );
+  
+  const emptyImage = (<View style={styles.imageBorder} onTouchStart={(e) => console.log(props.cell.row, props.cell.cell)}/>);
+  
+  const getMarker = (filledWith: Marker): JSX.Element => {
+    if(filledWith === Marker.heart){
+      return heartImage;
+    }
+    if(filledWith === Marker.cross){
+      return crossImage;
+    }
+    return emptyImage;
+  };
+
+  return <View>{getMarker(props.cell.filledWith)}</View>;
 };
 
 export default CellComponent;

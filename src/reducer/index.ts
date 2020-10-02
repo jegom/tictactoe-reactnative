@@ -1,16 +1,28 @@
 import { combineReducers, Action } from "redux";
-import { Cell, Marker } from "../types";
+import { CellInfo, Marker } from "../types";
 
 const INITIAL_STATE = {
   boardData: [
-    [{ filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }],
-    [{ filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }],
-    [{ filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }, { filledWith: Marker.unmarked }],
+    [
+      { filledWith: Marker.unmarked, row: 0, cell: 0 },
+      { filledWith: Marker.unmarked, row: 0, cell: 1 },
+      { filledWith: Marker.unmarked, row: 0, cell: 2 },
+    ],
+    [
+      { filledWith: Marker.unmarked, row: 1, cell: 0 },
+      { filledWith: Marker.unmarked, row: 1, cell: 1 },
+      { filledWith: Marker.unmarked, row: 1, cell: 2 },
+    ],
+    [
+      { filledWith: Marker.unmarked, row: 2, cell: 0 },
+      { filledWith: Marker.unmarked, row: 2, cell: 1 },
+      { filledWith: Marker.unmarked, row: 2, cell: 2 },
+    ],
   ],
 };
 
 export interface BoardState {
-    boardData: Cell[][];
+  boardData: CellInfo[][];
 }
 
 const boardReducer = (state = INITIAL_STATE, action: Action) => {

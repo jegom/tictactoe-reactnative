@@ -1,6 +1,7 @@
-export interface Cell {
+export interface CellInfo {
   filledWith: Marker;
   row: number;
+  cell: number;
 }
 
 export enum Marker {

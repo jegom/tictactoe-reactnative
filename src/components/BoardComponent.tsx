@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Cell } from "../types";
+import { CellInfo } from "../types";
 import { View, StyleSheet, Text } from "react-native";
 import CellComponent from "./CellComponent";
 import { BoardState } from "../reducer";
 
 interface Props {
-  board: Cell[][];
+  board: CellInfo[][];
 }
 
 class BoardComponent extends Component<Props> {
@@ -14,12 +14,12 @@ class BoardComponent extends Component<Props> {
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>Tic Tac Toe</Text>
-        {this.props.board.map((row: Cell[]) => {
+        {this.props.board.map((row: CellInfo[]) => {
           return (
             <View key={this.props.board.indexOf(row)} style={styles.row}>
-              <CellComponent key={this.props.board.indexOf(row) + "0"} filledWith={row[0].filledWith} />
-              <CellComponent key={this.props.board.indexOf(row) + "1"} filledWith={row[1].filledWith} />
-              <CellComponent key={this.props.board.indexOf(row) + "2"} filledWith={row[2].filledWith} />
+              <CellComponent key={this.props.board.indexOf(row) + "0"} cell={row[0]} />
+              <CellComponent key={this.props.board.indexOf(row) + "1"} cell={row[1]} />
+              <CellComponent key={this.props.board.indexOf(row) + "2"} cell={row[2]} />
             </View>
           );
         })}
