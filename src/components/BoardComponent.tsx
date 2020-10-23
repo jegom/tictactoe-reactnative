@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: {board: GameState}): Props => {
+const mapStateToProps = (state: {gameInfo: GameState}): Props => {
     return {
         gameInfo: state.gameInfo.boardData
     };
