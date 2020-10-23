@@ -32,14 +32,14 @@ export interface GameState {
   gameFinished: boolean;
 }
 
-export interface CellClickedAction extends Action {
-  row: number;
-  cell: number;
+export interface GameAction extends Action {
+  row?: number;
+  cell?: number;
 }
 
 const updateGame = (
   currentState: GameState,
-  clickedCell: CellClickedAction
+  clickedCell: GameAction
 ): GameState => {
   if (currentState.gameFinished) {
     return currentState;
@@ -58,7 +58,7 @@ const updateGame = (
   return currentState;
 };
 
-const gameReducer = (state = INITIAL_STATE, action: CellClickedAction) => {
+const gameReducer = (state = INITIAL_STATE, action: GameAction) => {
   switch (action.type) {
     case SET_MARKER:
       const currentState = clone(state);

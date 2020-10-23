@@ -1,5 +1,5 @@
 import gameReducer, { INITIAL_STATE } from "./gameReducer";
-import { SET_MARKER } from "../actions/boardActions";
+import { RESET_GAME, SET_MARKER } from "../actions/boardActions";
 import { Marker, Player } from "../types";
 
 describe("GameReducer", () => {
@@ -49,5 +49,16 @@ describe("GameReducer", () => {
       cell: 0,
     });
     expect(nextState.currentPlayer).toEqual(Player.cross);
+  });
+
+  it('should reset game', () => {
+    const initialState = INITIAL_STATE;
+    initialState.gameFinished = true;
+    initialState.currentPlayer = Player.cross;
+    initialState.boardData[0][0].filledWith = Marker.heart;
+
+    const nextState = gameReducer(INITIAL_STATE, {type: RESET_GAME});
+
+    expect(nextState).toEqual(INITIAL_STATE);
   });
 });
