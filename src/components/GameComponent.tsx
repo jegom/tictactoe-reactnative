@@ -26,11 +26,11 @@ class GameComponent extends Component<Props & DispatchProps> {
         </Text>
         <BoardComponent boardData={this.props.boardData} />
         {this.props.gameFinished && (
-          <View>
-            <Text style={styles.headerText}>Gewonnen!</Text>
-            <Button title="Nochmal spielen!" onPress={this.props.resetGame} />
-          </View>
+          <Text style={styles.headerText}>Gewonnen!</Text>
         )}
+        <View style={styles.buttonContainer}>
+          <Button title="Spiel zurücksetzen" onPress={this.props.resetGame} />
+        </View>
       </View>
     );
   }
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     margin: 20,
   },
+  buttonContainer: { margin: 20 },
 });
 
 const mapDispatchToProps = (dispatch): DispatchProps => ({
