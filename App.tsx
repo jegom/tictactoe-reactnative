@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux';
 import { StyleSheet, View } from "react-native";
 import BoardComponent from "./src/components/GameComponent";
-import reducer from './src/reducer';
+import reducer from './src/reducer/gameReducer';
 import logger from "redux-logger";
 
 const styles = StyleSheet.create({

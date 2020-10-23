@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { CellInfo, Player } from "../types";
 import { StyleSheet, Text, View } from "react-native";
-import { GameState } from "../reducer";
+import { GameState } from "../reducer/gameReducer";
 import BoardComponent from "./BoardComponent";
 
 interface Props {
