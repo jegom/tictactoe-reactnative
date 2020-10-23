@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: { gameInfo: GameState }): Props => {
+const mapStateToProps = (state: GameState): Props => {
   return {
-    boardData: state.gameInfo.boardData,
-    currentPlayer: state.gameInfo.currentPlayer,
+    boardData: state.boardData,
+    currentPlayer: state.currentPlayer,
   };
 };
 

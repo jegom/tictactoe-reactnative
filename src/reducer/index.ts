@@ -1,4 +1,4 @@
-import { Action, combineReducers } from "redux";
+import { Action } from "redux";
 import { SET_MARKER } from "../actions/boardActions";
 import { CellInfo, Marker, Player } from "../types";
 import { clone } from "ramda";
@@ -63,6 +63,4 @@ const gameReducer = (state = INITIAL_STATE, action: BoardAction) => {
     }
 };
 
-export default combineReducers({
-    gameInfo: gameReducer,
-});
+export default gameReducer;
