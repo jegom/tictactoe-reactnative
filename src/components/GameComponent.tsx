@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { CellInfo, Player } from "../types";
+import { Board, CellInfo, Player } from "../types";
 import { StyleSheet, Text, View } from "react-native";
 import { GameState } from "../reducer/gameReducer";
 import BoardComponent from "./BoardComponent";
 
 interface Props {
-  boardData: CellInfo[][];
+  boardData: Board;
   currentPlayer: Player;
+  gameFinished: boolean;
 }
 
 class GameComponent extends Component<Props> {
@@ -19,6 +20,9 @@ class GameComponent extends Component<Props> {
           {this.props.currentPlayer} ist dran!
         </Text>
         <BoardComponent boardData={this.props.boardData} />
+        {this.props.gameFinished && (
+          <Text style={styles.headerText}>Gewonnen!</Text>
+        )}
       </View>
     );
   }
@@ -41,6 +45,7 @@ const mapStateToProps = (state: GameState): Props => {
   return {
     boardData: state.boardData,
     currentPlayer: state.currentPlayer,
+    gameFinished: state.gameFinished,
   };
 };
 

@@ -1,7 +1,7 @@
 export interface CellInfo {
   filledWith: Marker;
   row: number;
-  cell: number;
+  column: number;
 }
 
 export enum Marker {
@@ -14,3 +14,5 @@ export enum Player {
   heart = "Herz",
   cross = "Kreuz",
 }
+
+export type Board = CellInfo[][];

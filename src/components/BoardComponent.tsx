@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { CellInfo } from "../types";
+import { Board, CellInfo } from "../types";
 import CellComponent from "./CellComponent";
 
 interface Props {
-  boardData: CellInfo[][];
+  boardData: Board;
 }
 
 const BoardComponent = (props: Props) => {

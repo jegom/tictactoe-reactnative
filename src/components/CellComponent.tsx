@@ -44,7 +44,7 @@ const CellComponent = (props: Props) => {
 
   const setMarker = () => {
     if (props.cellInfo.filledWith === Marker.unmarked) {
-      dispatch({ type: SET_MARKER, row: props.cellInfo.row, cell: props.cellInfo.cell });
+      dispatch({ type: SET_MARKER, row: props.cellInfo.row, cell: props.cellInfo.column });
     }
   };
 

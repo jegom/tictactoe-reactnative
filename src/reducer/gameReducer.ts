@@ -1,32 +1,42 @@
 import { Action } from "redux";
 import { SET_MARKER } from "../actions/boardActions";
-import { CellInfo, Marker, Player } from "../types";
+import { Board, CellInfo, Marker, Player } from "../types";
 import { clone } from "ramda";
+import {
+    getMarkerFor, getNextPlayer,
+    hasThreeDiagonal,
+    hasThreeInColumn,
+    hasThreeInRow,
+    isGameFinished,
+    isUnmarked
+} from '../utils/gameUtils';
 
 export const INITIAL_STATE: GameState = {
+    gameFinished: false,
     currentPlayer: Player.heart,
     boardData: [
         [
-            {filledWith: Marker.unmarked, row: 0, cell: 0},
-            {filledWith: Marker.unmarked, row: 0, cell: 1},
-            {filledWith: Marker.unmarked, row: 0, cell: 2},
+            {filledWith: Marker.unmarked, row: 0, column: 0},
+            {filledWith: Marker.unmarked, row: 0, column: 1},
+            {filledWith: Marker.unmarked, row: 0, column: 2},
         ],
         [
-            {filledWith: Marker.unmarked, row: 1, cell: 0},
-            {filledWith: Marker.unmarked, row: 1, cell: 1},
-            {filledWith: Marker.unmarked, row: 1, cell: 2},
+            {filledWith: Marker.unmarked, row: 1, column: 0},
+            {filledWith: Marker.unmarked, row: 1, column: 1},
+            {filledWith: Marker.unmarked, row: 1, column: 2},
         ],
         [
-            {filledWith: Marker.unmarked, row: 2, cell: 0},
-            {filledWith: Marker.unmarked, row: 2, cell: 1},
-            {filledWith: Marker.unmarked, row: 2, cell: 2},
+            {filledWith: Marker.unmarked, row: 2, column: 0},
+            {filledWith: Marker.unmarked, row: 2, column: 1},
+            {filledWith: Marker.unmarked, row: 2, column: 2},
         ],
     ],
 };
 
 export interface GameState {
     currentPlayer: Player;
-    boardData: CellInfo[][];
+    boardData: Board;
+    gameFinished: boolean;
 }
 
 export interface CellClickedAction extends Action {
@@ -34,21 +44,19 @@ export interface CellClickedAction extends Action {
     cell: number;
 }
 
-const getMarkerFor = (currentPlayer: Player): Marker => currentPlayer === Player.cross ? Marker.cross : Marker.heart
-
-const getNextPlayer = (currentState: GameState) => currentState.currentPlayer === Player.heart ? Player.cross : Player.heart;
-
-const isUnmarked = (cell: CellInfo) => cell.filledWith === Marker.unmarked;
-
 const updateGame = (
     currentState: GameState,
     clickedCell: CellClickedAction
 ): GameState => {
+    if(currentState.gameFinished){
+        return currentState;
+    }
     const cell = currentState.boardData[clickedCell.row][clickedCell.cell];
     if (isUnmarked(cell)) {
         currentState.boardData[clickedCell.row][clickedCell.cell].filledWith = getMarkerFor(currentState.currentPlayer);
     }
-    currentState.currentPlayer = getNextPlayer(currentState);
+    currentState.gameFinished = isGameFinished(currentState.boardData, currentState.currentPlayer);
+    currentState.currentPlayer = getNextPlayer(currentState.currentPlayer);
     return currentState;
 };
 
