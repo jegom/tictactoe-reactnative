@@ -35,16 +35,19 @@ export interface BoardAction extends Action {
 
 const getMarkerFor = (currentPlayer: Player): Marker => currentPlayer === Player.cross ? Marker.cross : Marker.heart
 
+const getNextPlayer = (currentState: GameState) => currentState.currentPlayer === Player.heart ? Player.cross : Player.heart;
+
+const isUnmarked = (cell: CellInfo) => cell.filledWith == Marker.unmarked;
+
 const updateGame = (
     currentState: GameState,
     clickedCell: CellInfo
 ): GameState => {
     const cell = currentState.boardData[clickedCell.row][clickedCell.cell];
-    if (cell.filledWith == Marker.unmarked) {
+    if (isUnmarked(cell)) {
         currentState.boardData[clickedCell.row][clickedCell.cell].filledWith = getMarkerFor(currentState.currentPlayer);
     }
-    currentState.currentPlayer =
-        currentState.currentPlayer === Player.heart ? Player.cross : Player.heart;
+    currentState.currentPlayer = getNextPlayer(currentState);
     return currentState;
 };
 

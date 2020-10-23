@@ -7,10 +7,10 @@ export interface CellInfo {
 export enum Marker {
   heart,
   cross,
-  unmarked
+  unmarked,
 }
 
 export enum Player {
-  heart,
-  cross
+  heart = "Herz",
+  cross = "Kreuz",
 }
