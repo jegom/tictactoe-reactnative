@@ -1,5 +1,7 @@
 import { combineReducers, Action } from "redux";
+import { SET_MARKER } from "../actions/boardActions";
 import { CellInfo, Marker } from "../types";
+import {clone} from 'ramda';
 
 const INITIAL_STATE = {
   boardData: [
@@ -25,8 +27,25 @@ export interface BoardState {
   boardData: CellInfo[][];
 }
 
-const boardReducer = (state = INITIAL_STATE, action: Action) => {
+export interface BoardAction extends Action {
+  cellInfo: CellInfo;
+}
+
+const updateBoardData = (boardData: CellInfo[][], clickedCell: CellInfo) => {
+    const cell = boardData[clickedCell.row][clickedCell.cell];
+    if(cell.filledWith == Marker.unmarked){
+      boardData[clickedCell.row][clickedCell.cell].filledWith = Marker.heart;
+    }
+    return boardData;
+};
+
+const boardReducer = (state = INITIAL_STATE, action: BoardAction) => {
   switch (action.type) {
+    case SET_MARKER:
+      const currentBoard = clone(state.boardData);
+      return {
+        boardData: updateBoardData(currentBoard, action.cellInfo)
+      }
     default:
       return state;
   }

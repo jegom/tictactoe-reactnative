@@ -10,16 +10,17 @@ interface Props {
 }
 
 class BoardComponent extends Component<Props> {
-  public render() {  
+  public render() {
+    console.log('this.props.board', this.props.board);
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>Tic Tac Toe</Text>
         {this.props.board.map((row: CellInfo[]) => {
           return (
             <View key={this.props.board.indexOf(row)} style={styles.row}>
-              <CellComponent key={this.props.board.indexOf(row) + "0"} cell={row[0]} />
-              <CellComponent key={this.props.board.indexOf(row) + "1"} cell={row[1]} />
-              <CellComponent key={this.props.board.indexOf(row) + "2"} cell={row[2]} />
+              <CellComponent key={this.props.board.indexOf(row) + "0"} cellInfo={row[0]} />
+              <CellComponent key={this.props.board.indexOf(row) + "1"} cellInfo={row[1]} />
+              <CellComponent key={this.props.board.indexOf(row) + "2"} cellInfo={row[2]} />
             </View>
           );
         })}

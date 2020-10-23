@@ -1,9 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Image, ImagePropTypes } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { CellInfo, Marker } from "../types";
+import { useDispatch } from 'react-redux'
+import { SET_MARKER } from "../actions/boardActions";
 
 interface Props {
-  cell: CellInfo;
+  cellInfo: CellInfo;
 }
 
 const cellSize = 100;
@@ -24,21 +26,26 @@ const styles = StyleSheet.create({
 });
 
 const CellComponent = (props: Props) => {
-  console.log(props);
+  const dispatch = useDispatch()
+
+  const setMarker = () => {
+      dispatch({type: SET_MARKER, cellInfo: props.cellInfo});
+  };
+
   const heartImage = (
-    <View style={styles.imageBorder}>
-      <Image style={styles.image} source={require("../images/herz.png")} />
-    </View>
+      <View style={styles.imageBorder}>
+        <Image style={styles.image} source={require("../images/herz.png")} />
+      </View>
   );
-  
+
   const crossImage = (
-    <View style={styles.imageBorder}>
-      <Image style={styles.image} source={require("../images/cross.png")} />
-    </View>
+      <View style={styles.imageBorder}>
+        <Image style={styles.image} source={require("../images/cross.png")} />
+      </View>
   );
-  
-  const emptyImage = (<View style={styles.imageBorder} onTouchStart={(e) => console.log(props.cell.row, props.cell.cell)}/>);
-  
+
+  const emptyImage = (<View style={styles.imageBorder} onTouchStart={setMarker}/>);
+
   const getMarker = (filledWith: Marker): JSX.Element => {
     if(filledWith === Marker.heart){
       return heartImage;
@@ -49,7 +56,7 @@ const CellComponent = (props: Props) => {
     return emptyImage;
   };
 
-  return <View>{getMarker(props.cell.filledWith)}</View>;
+  return <View onTouchStart={setMarker}>{getMarker(props.cellInfo.filledWith)}</View>;
 };
 
 export default CellComponent;

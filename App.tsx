@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Provider } from 'react-redux'
-import { StyleSheet, View, Text } from "react-native";
+import { applyMiddleware, createStore } from 'redux';
+import { StyleSheet, View } from "react-native";
 import BoardComponent from "./src/components/BoardComponent";
-import { createStore } from 'redux'
 import reducer from './src/reducer';
+import logger from "redux-logger";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const store = createStore(reducer)
+  const store = createStore(reducer, applyMiddleware(logger));
   return (
     <Provider store={store}>
     <View style={styles.container}>
