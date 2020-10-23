@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Board, CellInfo, Player } from "../types";
-import { StyleSheet, Text, View } from "react-native";
+import { Board, Player } from "../types";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { GameState } from "../reducer/gameReducer";
 import BoardComponent from "./BoardComponent";
+import { RESET_GAME } from "../actions/boardActions";
+
+interface DispatchProps {
+  resetGame: () => void;
+}
 
 interface Props {
   boardData: Board;
@@ -11,7 +16,7 @@ interface Props {
   gameFinished: boolean;
 }
 
-class GameComponent extends Component<Props> {
+class GameComponent extends Component<Props & DispatchProps> {
   public render() {
     return (
       <View style={styles.container}>
@@ -21,7 +26,10 @@ class GameComponent extends Component<Props> {
         </Text>
         <BoardComponent boardData={this.props.boardData} />
         {this.props.gameFinished && (
-          <Text style={styles.headerText}>Gewonnen!</Text>
+          <View>
+            <Text style={styles.headerText}>Gewonnen!</Text>
+            <Button title="Nochmal spielen!" onPress={this.props.resetGame} />
+          </View>
         )}
       </View>
     );
@@ -41,6 +49,10 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapDispatchToProps = (dispatch): DispatchProps => ({
+  resetGame: () => dispatch({ type: RESET_GAME }),
+});
+
 const mapStateToProps = (state: GameState): Props => {
   return {
     boardData: state.boardData,
@@ -49,4 +61,4 @@ const mapStateToProps = (state: GameState): Props => {
   };
 };
 
-export default connect(mapStateToProps)(GameComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(GameComponent);

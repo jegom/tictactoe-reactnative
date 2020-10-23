@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { SET_MARKER } from "../actions/boardActions";
+import { RESET_GAME, SET_MARKER } from "../actions/boardActions";
 import { Board, Marker, Player } from "../types";
 import { clone } from "ramda";
 import { getMarkerFor, getNextPlayer, isGameFinished, isUnmarked, } from "../utils/gameUtils";
@@ -65,6 +65,10 @@ const gameReducer = (state = INITIAL_STATE, action: CellClickedAction) => {
       return {
         ...updateGame(currentState, action),
       };
+    case RESET_GAME:
+      return {
+        ...INITIAL_STATE
+      }
     default:
       return state;
   }
