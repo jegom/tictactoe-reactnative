@@ -1,56 +1,65 @@
-import { combineReducers, Action } from "redux";
+import { Action, combineReducers } from "redux";
 import { SET_MARKER } from "../actions/boardActions";
-import { CellInfo, Marker } from "../types";
-import {clone} from 'ramda';
+import { CellInfo, Marker, Player } from "../types";
+import { clone } from "ramda";
 
-const INITIAL_STATE = {
-  boardData: [
-    [
-      { filledWith: Marker.unmarked, row: 0, cell: 0 },
-      { filledWith: Marker.unmarked, row: 0, cell: 1 },
-      { filledWith: Marker.unmarked, row: 0, cell: 2 },
+const INITIAL_STATE: GameState = {
+    currentPlayer: Player.heart,
+    boardData: [
+        [
+            {filledWith: Marker.unmarked, row: 0, cell: 0},
+            {filledWith: Marker.unmarked, row: 0, cell: 1},
+            {filledWith: Marker.unmarked, row: 0, cell: 2},
+        ],
+        [
+            {filledWith: Marker.unmarked, row: 1, cell: 0},
+            {filledWith: Marker.unmarked, row: 1, cell: 1},
+            {filledWith: Marker.unmarked, row: 1, cell: 2},
+        ],
+        [
+            {filledWith: Marker.unmarked, row: 2, cell: 0},
+            {filledWith: Marker.unmarked, row: 2, cell: 1},
+            {filledWith: Marker.unmarked, row: 2, cell: 2},
+        ],
     ],
-    [
-      { filledWith: Marker.unmarked, row: 1, cell: 0 },
-      { filledWith: Marker.unmarked, row: 1, cell: 1 },
-      { filledWith: Marker.unmarked, row: 1, cell: 2 },
-    ],
-    [
-      { filledWith: Marker.unmarked, row: 2, cell: 0 },
-      { filledWith: Marker.unmarked, row: 2, cell: 1 },
-      { filledWith: Marker.unmarked, row: 2, cell: 2 },
-    ],
-  ],
 };
 
-export interface BoardState {
-  boardData: CellInfo[][];
+export interface GameState {
+    currentPlayer: Player;
+    boardData: CellInfo[][];
 }
 
 export interface BoardAction extends Action {
-  cellInfo: CellInfo;
+    cellInfo: CellInfo;
 }
 
-const updateBoardData = (boardData: CellInfo[][], clickedCell: CellInfo) => {
-    const cell = boardData[clickedCell.row][clickedCell.cell];
-    if(cell.filledWith == Marker.unmarked){
-      boardData[clickedCell.row][clickedCell.cell].filledWith = Marker.heart;
+const getMarkerFor = (currentPlayer: Player): Marker => currentPlayer === Player.cross ? Marker.cross : Marker.heart
+
+const updateGame = (
+    currentState: GameState,
+    clickedCell: CellInfo
+): GameState => {
+    const cell = currentState.boardData[clickedCell.row][clickedCell.cell];
+    if (cell.filledWith == Marker.unmarked) {
+        currentState.boardData[clickedCell.row][clickedCell.cell].filledWith = getMarkerFor(currentState.currentPlayer);
     }
-    return boardData;
+    currentState.currentPlayer =
+        currentState.currentPlayer === Player.heart ? Player.cross : Player.heart;
+    return currentState;
 };
 
-const boardReducer = (state = INITIAL_STATE, action: BoardAction) => {
-  switch (action.type) {
-    case SET_MARKER:
-      const currentBoard = clone(state.boardData);
-      return {
-        boardData: updateBoardData(currentBoard, action.cellInfo)
-      }
-    default:
-      return state;
-  }
+const gameReducer = (state = INITIAL_STATE, action: BoardAction) => {
+    switch (action.type) {
+        case SET_MARKER:
+            const currentState = clone(state);
+            return {
+                ...updateGame(currentState, action.cellInfo),
+            };
+        default:
+            return state;
+    }
 };
 
 export default combineReducers({
-  board: boardReducer,
+    gameInfo: gameReducer,
 });

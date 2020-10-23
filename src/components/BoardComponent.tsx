@@ -3,24 +3,23 @@ import { connect } from "react-redux";
 import { CellInfo } from "../types";
 import { View, StyleSheet, Text } from "react-native";
 import CellComponent from "./CellComponent";
-import { BoardState } from "../reducer";
+import { GameState } from "../reducer";
 
 interface Props {
-  board: CellInfo[][];
+  gameInfo: CellInfo[][];
 }
 
 class BoardComponent extends Component<Props> {
   public render() {
-    console.log('this.props.board', this.props.board);
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>Tic Tac Toe</Text>
-        {this.props.board.map((row: CellInfo[]) => {
+        {this.props.gameInfo.map((row: CellInfo[]) => {
           return (
-            <View key={this.props.board.indexOf(row)} style={styles.row}>
-              <CellComponent key={this.props.board.indexOf(row) + "0"} cellInfo={row[0]} />
-              <CellComponent key={this.props.board.indexOf(row) + "1"} cellInfo={row[1]} />
-              <CellComponent key={this.props.board.indexOf(row) + "2"} cellInfo={row[2]} />
+            <View key={this.props.gameInfo.indexOf(row)} style={styles.row}>
+              <CellComponent key={this.props.gameInfo.indexOf(row) + "0"} cellInfo={row[0]} />
+              <CellComponent key={this.props.gameInfo.indexOf(row) + "1"} cellInfo={row[1]} />
+              <CellComponent key={this.props.gameInfo.indexOf(row) + "2"} cellInfo={row[2]} />
             </View>
           );
         })}
@@ -47,9 +46,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: {board: BoardState}): Props => {
+const mapStateToProps = (state: {board: GameState}): Props => {
     return {
-        board: state.board.boardData
+        gameInfo: state.gameInfo.boardData
     };
 };
 

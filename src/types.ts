@@ -9,3 +9,8 @@ export enum Marker {
   cross,
   unmarked
 }
+
+export enum Player {
+  heart,
+  cross
+}
